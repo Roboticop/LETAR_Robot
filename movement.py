@@ -47,6 +47,9 @@ class Z_Motor_Movement():
   def Move_Down(self):
     self.z_motor.anticlockwise()
 
+  def Z_Motor_Stop(self):
+    self.z_motor.stop()
+
   def Z_MOTOR_TEST(self):
     try:
       self.z_motor.clockwise(duration=0.5)

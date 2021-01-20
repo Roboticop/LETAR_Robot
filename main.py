@@ -22,10 +22,27 @@ if __name__ == '__main__':
       while True:
         data = conn.recv(1024)
         print(data)
-        if "test" in data.decode():
+        decoded_data = data.decode()
+        if "quit" in decoded_data:
+          break
+        elif "test" in decoded_data:
           Roboticop.XY_MOTOR_TEST()
           Roboticop.Z_MOTOR_TEST()
-        if not data:
-          break
+        elif "Movement" in decoded_data:
+          if "forward" in decoded_data:
+            Roboticop.Move_Forward()
+          elif "right" in decoded_data:
+            Roboticop.Move_Right()
+          elif "left" in decoded_data:
+            Roboticop.Move_Left()
+          elif "back" in decoded_data:
+            Roboticop.Move_Backward()
+          elif "up" in decoded_data:
+            Roboticop.Move_Up()
+          elif "down" in decoded_data:
+            Roboticop.Move_Down()
+          else:
+            Roboticop.Stop_moving()
+            Roboticop.Z_Motor_Stop()
         conn.sendall(data)
 
