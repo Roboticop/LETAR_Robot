@@ -3,13 +3,29 @@ import socket
 from Robot import Robot
 
 HOST = '127.0.0.1'
-PORT = 54321
+PORT = 65432
 
 motor_1_pins = (22, 18, 16)
 motor_2_pins = (15, 13, 11)
-motor_3_pins = (40, 38, 36)
+motor_3_pins = (37, 36, 33)
 
 
 if __name__ == '__main__':
   Roboticop = Robot(motor_1_pins, motor_2_pins, motor_3_pins)
+
+  with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.bind((HOST, PORT))
+    s.listen()
+    conn, addr = s.accept()
+    with conn:
+      print('Connected by', addr)
+      while True:
+        data = conn.recv(1024)
+        print(data)
+        if "test" in data.decode():
+          Roboticop.XY_MOTOR_TEST()
+          Roboticop.Z_MOTOR_TEST()
+        if not data:
+          break
+        conn.sendall(data)
 
