@@ -1,20 +1,31 @@
+from vidgear.gears import VideoGear
+from vidgear.gears import NetGear
 import socket
-import time
-import picamera
 
-client_socket = socket.socket()
-client_socket.connect(('my_server'), 8000)
+options = {"Flag": 0, "copy": False, "track": False, "bidirectional_mode": True}
 
-connection = client_socket.makefile('wb')
-try:
-	camera = picamera.PiCamera()
-	camera.resolution = (640, 480)
-	camera.framerate = 24
-	camera.start_preview()
-	time.sleep(2)
-	camera.start_recording(connection, format='h264')
-	camera.wait_recording(60)
-	camera.stop_recording()
-finally:
-	connection.close()
-	client_socket.close()
+stream = VideoGear(source=0).start()
+
+server = NetGear(
+	address = str(socket.gethostbyname(socket.gethostname())),
+	port = "5454",
+	protocol = "tcp",
+	pattern = 1,
+	logging = True,
+	**options
+)
+
+while True:
+	try:
+		frame = stream.read()
+		if frame is None:
+			break
+		target_data = "SUP CUH"
+		recv_data = server.send(frame, message=target_data)
+		if not (recv_data is None):
+			print(recv_data)
+	except KeyboardInterrupt:
+		break
+
+stream.stop()
+server.close()
