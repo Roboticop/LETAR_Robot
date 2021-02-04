@@ -6,7 +6,7 @@ from Robot import Robot
 ADDRESS = '127.0.0.1'
 PORT = "5454"
 
-options = {"Flag": 0, "copy": False, "track": False, "bidirectional_mode": True, "secure_mode": 2}
+options = {"flag": 0, "copy": False, "track": False, "bidirectional_mode": True, "secure_mode": 2}
 
 stream = VideoGear(source = 0).start()
 
