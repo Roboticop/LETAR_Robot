@@ -49,7 +49,9 @@ if __name__ == '__main__':
             if frame is None:
                 break
             target_data = audio_stream.read(CHUNK)
+						target_data = JSON.parse(target_data)
             recv_data = server.send(frame, message = target_data)
+
             if not (recv_data is None):
                 if recv_data is not None:
                     Roboticop.movement_classifier(recv_data)
