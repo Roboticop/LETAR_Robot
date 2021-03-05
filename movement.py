@@ -22,7 +22,7 @@ class XY_Motor_Movement():
     self.left_motor.anticlockwise()
     self.right_motor.anticlockwise()
 
-  def Stop_moving(self):
+  def Stop_Moving(self):
     self.left_motor.stop()
     self.right_motor.stop()
 
