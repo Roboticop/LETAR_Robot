@@ -53,8 +53,9 @@ if __name__ == '__main__':
             recv_data = server.send(frame, message = target_data)
             if not (recv_data is None):
                 if recv_data is not None:
-                    Roboticop.movement_classifier(recv_data)
-                    print(recv_data)
+									if "M" in recv_data:
+										recv_data = recv_data[-1]
+										ser.write(str.encode(recv_data))
         except KeyboardInterrupt:
             break
 
