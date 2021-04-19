@@ -155,6 +155,11 @@ if __name__ == '__main__':
                 speech.save("speech.mp3")
                 playsound("speech.mp3")
                 speak_message = ""
+            if not (recv_data is None):
+                if recv_data is not None:
+									if "M" in recv_data:
+										recv_data = recv_data[-1]
+										ser.write(str.encode(recv_data))
         except KeyboardInterrupt:
             break
 
